@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f5f5f3;
+    --bg-card: #ffffff;
+    --bg-elevated: #ffffff;
+    --border: #e5e3de;
+    --border-strong: #d0cdc7;
+    --accent: #e8ff3a;
+    --accent-dark: #c8df1a;
+    --accent-warm: #ff6b35;
+    --text-primary: #0d0d0d;
+    --text-secondary: #6b6b6b;
+    --text-muted: #a0a0a0;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --blue: #2563eb;
+    --blue-bg: #eff6ff;
+    --amber: #d97706;
+    --amber-bg: #fffbeb;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    /* optional subtle noise */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+  }
+
+  /* Grid background for dashboard */
+  .bg-dashboard-grid {
+    background-image: 
+      linear-gradient(to right, rgba(13,13,13,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(13,13,13,0.02) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply bg-[var(--text-primary)] text-[var(--accent)] font-semibold px-6 py-2.5 rounded-lg active:scale-[0.97] transition-all duration-300 inline-flex items-center gap-2 justify-center shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:-translate-y-0.5 border border-transparent hover:border-[#333];
+  }
+  .btn-outline {
+    @apply border border-[var(--border-strong)] bg-white text-[var(--text-primary)] font-semibold px-6 py-2.5 rounded-lg active:scale-[0.97] transition-all duration-300 inline-flex items-center gap-2 justify-center shadow-sm hover:border-[var(--text-primary)] hover:shadow-md hover:-translate-y-0.5;
+  }
+  .btn-ghost {
+    @apply text-[var(--text-secondary)] font-medium px-4 py-2 rounded-lg hover:bg-[var(--bg-secondary)] active:scale-[0.97] transition-all duration-200 inline-flex items-center gap-2 justify-center;
+  }
+  .btn-danger {
+    @apply bg-red-600 text-white font-semibold px-6 py-2.5 rounded-lg active:scale-[0.97] transition-all duration-300 inline-flex items-center gap-2 justify-center shadow-[0_4px_12px_rgba(220,38,38,0.2)] hover:bg-red-700 hover:shadow-[0_8px_20px_rgba(220,38,38,0.3)] hover:-translate-y-0.5;
+  }
+  .btn-danger-ghost {
+    @apply text-red-600 font-medium px-4 py-2 rounded-lg hover:bg-red-50 active:scale-[0.97] transition-all duration-200 inline-flex items-center gap-2 justify-center;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full px-4 py-3 bg-white border border-[var(--border)] rounded-xl text-[15px] outline-none text-[var(--text-primary)] placeholder-[var(--text-muted)] transition-all duration-300 focus:border-[var(--text-primary)] focus:shadow-[0_0_0_4px_rgba(13,13,13,0.05)];
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-[var(--bg-card)] rounded-[12px] border border-[var(--border)] shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.10),0_4px_12px_rgba(0,0,0,0.06)] hover:border-[var(--border-strong)] hover:-translate-y-1;
+  }
+  
+  /* Tables */
+  .table-container {
+    @apply w-full overflow-hidden bg-[var(--bg-card)] rounded-[12px] border border-[var(--border)] shadow-sm;
+  }
+  .table-header {
+    @apply bg-[#f9f8f6] text-[var(--text-secondary)] text-[11px] font-bold uppercase tracking-wider text-left;
+  }
+  .table-row {
+    @apply border-b border-[var(--border)] transition-colors duration-200 hover:bg-[#fafaf8] relative;
+  }
+  .table-row:hover::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--accent);
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider border;
+  }
+  .badge-green { @apply bg-[var(--green-bg)] text-[var(--green)] border-[rgba(22,163,74,0.15)]; }
+  .badge-red { @apply bg-[var(--red-bg)] text-[var(--red)] border-[rgba(220,38,38,0.15)]; }
+  .badge-yellow { @apply bg-[var(--amber-bg)] text-[var(--amber)] border-[rgba(217,119,6,0.15)]; }
+  .badge-blue { @apply bg-[var(--blue-bg)] text-[var(--blue)] border-[rgba(37,99,235,0.15)]; }
+  .badge-gray { @apply bg-[var(--bg-secondary)] text-[var(--text-secondary)] border-[var(--border)]; }
+
+  /* Utilities */
+  .glass-header {
+    @apply bg-white/95 backdrop-blur-md border-b border-[var(--border)];
+  }
+  .glass-overlay {
+    @apply bg-white/60 backdrop-blur-sm;
+  }
+  
+  /* Skeleton Loading */
+  .skeleton {
+    @apply bg-[#ebebeb] relative overflow-hidden rounded-md;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-spring-up {
+  animation: springUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes springUp {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.slide-over-enter {
+  animation: slideLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}

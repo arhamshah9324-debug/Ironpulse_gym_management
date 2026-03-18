@@ -1,0 +1,47 @@
+# docker-compose.yml
+# Builds React + FastAPI in one multi-stage image
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: gym_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Arhamshah9324
+      POSTGRES_DB: gymdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gym_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:Arhamshah9324@db:5432/gymdb
+      SYNC_DATABASE_URL: postgresql://postgres:Arhamshah9324@db:5432/gymdb
+      SECRET_KEY: ironpulse-super-secret-key-2024-arham
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+      GOOGLE_CLIENT_ID: ""
+      GOOGLE_CLIENT_SECRET: ""
+      GOOGLE_REDIRECT_URI: http://localhost:8000/api/auth/google/callback
+      FRONTEND_URL: http://localhost:8000
+      DEBUG: "false"
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
