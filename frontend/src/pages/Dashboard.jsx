@@ -7,6 +7,8 @@ import Plans     from '../components/dashboard/Plans'
 import Subs      from '../components/dashboard/Subscriptions'
 import Attendance from '../components/dashboard/Attendance'
 import Payments  from '../components/dashboard/Payments'
+import MemberProfile from './MemberProfile'
+import TrainerProfile from './TrainerProfile'
 
 export default function Dashboard() {
   return (
@@ -16,7 +18,9 @@ export default function Dashboard() {
         <Routes>
           <Route index                  element={<Overview />}   />
           <Route path="members"         element={<Members />}    />
+          <Route path="members/:id"     element={<MemberProfile />} />
           <Route path="trainers"        element={<Trainers />}   />
+          <Route path="trainers/:id"    element={<TrainerProfile />} />
           <Route path="plans"           element={<Plans />}      />
           <Route path="subscriptions"   element={<Subs />}       />
           <Route path="attendance"      element={<Attendance />} />

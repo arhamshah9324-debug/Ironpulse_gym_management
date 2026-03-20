@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react'
 import { Plus, Trash2, Search, Filter, MoreVertical, X, User } from 'lucide-react'
 import { PageHeader, Table, Tr, Td, Modal, FormField, Badge } from '../ui/index.jsx'
 import { useToast } from '../../hooks/useToast'
+import { useNavigate } from 'react-router-dom'
 import api from '../../lib/api'
 
+// src/components/dashboard/Members.jsx
 export default function Members() {
+  const navigate = useNavigate()
   const [members, setMembers] = useState([])
   const [loading, setLoading] = useState(true)
   const [modal, setModal]     = useState(false)
   const [slideOver, setSlideOver] = useState(null)
-  const [form, setForm]       = useState({ user_id:'', phone:'', join_date:'', date_of_birth:'', address:'' })
+  const [form, setForm]       = useState({ name:'', email:'', phone:'', join_date:'', date_of_birth:'', address:'' })
   const [search, setSearch]   = useState('')
   const [filter, setFilter]   = useState('All')
   const { toast } = useToast()
@@ -30,13 +33,21 @@ export default function Members() {
   const submit = async e => {
     e.preventDefault()
     try {
+      // 1. Create User
+      const userRes = await api.post('/auth/signup', {
+        name: form.name, email: form.email, password: 'password123', role: 'member'
+      })
+      const userId = userRes.data.user.id
+      
+      // 2. Create Member Profile
+      const { name, email, ...memberFields } = form
       const body = { 
-        ...Object.fromEntries(Object.entries(form).map(([k, v]) => [k, v === '' ? null : v])),
-        user_id: Number(form.user_id) 
+        ...Object.fromEntries(Object.entries(memberFields).map(([k, v]) => [k, v === '' ? null : v])),
+        user_id: userId 
       }
       await api.post('/members/', body)
       toast.success('Member created successfully')
-      setModal(false); setForm({ user_id:'', phone:'', join_date:'', date_of_birth:'', address:'' }); load()
+      setModal(false); setForm({ name:'', email:'', phone:'', join_date:'', date_of_birth:'', address:'' }); load()
     } catch(e) { 
       toast.error(e.response?.data?.detail || 'Failed to create member')
     }
@@ -112,15 +123,15 @@ export default function Members() {
 
           <Table headers={['Member','Contact','Join Date','Status','Actions']} loading={loading} empty="No members found matching your search.">
             {filteredMembers.map((m, index) => (
-              <Tr key={m.id} index={index}>
+              <Tr key={m.id} index={index} onClick={() => navigate(`/dashboard/members/${m.id}`)}>
                 <Td>
-                  <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setSlideOver(m)}>
+                  <div className="flex items-center gap-3 group">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#f5f5f3] to-[#e5e3de] border border-[var(--border)] flex items-center justify-center font-bold text-[var(--text-primary)] text-sm group-hover:scale-110 transition-transform">
-                      {m.name ? m.name[0].toUpperCase() : 'M'}
+                      {m.user?.name ? m.user.name[0].toUpperCase() : 'M'}
                     </div>
                     <div>
-                      <div className="font-bold text-[13px] text-black group-hover:text-[var(--accent-warm)] transition-colors">{m.name || `Member #${m.user_id}`}</div>
-                      <div className="text-[11px] font-mono text-[var(--text-muted)] mt-0.5">ID: {m.user_id}</div>
+                      <div className="font-bold text-[13px] text-black group-hover:text-[var(--accent-warm)] transition-colors">{m.user?.name || `Member #${m.user_id}`}</div>
+                      <div className="text-[11px] font-mono text-[var(--text-muted)] mt-0.5">{m.user?.email || `ID: ${m.user_id}`}</div>
                     </div>
                   </div>
                 </Td>
@@ -162,9 +173,9 @@ export default function Members() {
             {/* Header Profile */}
             <div className="px-8 pt-12 pb-8 border-b border-[var(--border)] bg-dashboard-grid">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-black to-gray-800 text-[var(--accent)] flex items-center justify-center font-display text-4xl mb-4 border-4 border-white shadow-md">
-                {slideOver.name ? slideOver.name[0].toUpperCase() : 'M'}
+                {slideOver.user?.name ? slideOver.user.name[0].toUpperCase() : 'M'}
               </div>
-              <h2 className="font-display text-3xl mb-1">{slideOver.name || `Member #${slideOver.user_id}`}</h2>
+              <h2 className="font-display text-3xl mb-1">{slideOver.user?.name || `Member #${slideOver.user_id}`}</h2>
               <div className="flex gap-2">
                 <Badge value="active" dot />
                 <Badge value="member" />
@@ -227,8 +238,11 @@ export default function Members() {
       <Modal open={modal} onClose={() => setModal(false)} title="Add New Member">
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <FormField label="User ID *">
-              <input className="input" type="number" value={form.user_id} onChange={set('user_id')} placeholder="e.g. 1001" required />
+            <FormField label="Full Name *">
+              <input className="input" type="text" value={form.name} onChange={set('name')} placeholder="e.g. John Doe" required />
+            </FormField>
+            <FormField label="Email Address *">
+              <input className="input" type="email" value={form.email} onChange={set('email')} placeholder="john@example.com" required />
             </FormField>
             <FormField label="Phone">
               <input className="input font-mono" type="tel" value={form.phone} onChange={set('phone')} placeholder="+91..." />

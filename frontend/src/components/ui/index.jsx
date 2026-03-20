@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Search, Bell, X } from 'lucide-react';
 
 // src/components/ui/PageHeader.jsx
-export function PageHeader({ title, subtitle, action, breadcrumbs = [] }) {
+export function PageHeader({ title, subtitle, action, breadcrumbs = [], onSearch, searchValue }) {
   const [time, setTime] = useState(new Date());
+  const [showNotifs, setShowNotifs] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -34,13 +35,56 @@ export function PageHeader({ title, subtitle, action, breadcrumbs = [] }) {
       <div className="flex items-center gap-4">
         {action && action}
         <div className="flex items-center gap-3 border-l border-[var(--border)] pl-4 ml-2">
-          <button className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] transition-colors">
-            <Search size={18} />
-          </button>
-          <button className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] transition-colors relative">
-            <Bell size={18} />
-            <span className="absolute top-2 right-2.5 w-2 h-2 rounded-full bg-[var(--accent-warm)] border-2 border-white"></span>
-          </button>
+          {onSearch !== undefined && (
+            <div className="relative group flex items-center">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
+              <input 
+                type="text" 
+                placeholder="Search..." 
+                value={searchValue || ''}
+                onChange={e => onSearch(e.target.value)}
+                className="w-48 sm:w-64 pl-9 pr-4 py-1.5 bg-[#f5f5f3] focus:bg-white border border-transparent focus:border-black rounded-full text-sm outline-none transition-all text-black placeholder-gray-400 focus:shadow-[0_0_0_2px_rgba(13,13,13,0.1)]"
+              />
+            </div>
+          )}
+          <div className="relative">
+            <button 
+              onClick={() => setShowNotifs(!showNotifs)}
+              className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] transition-colors relative"
+            >
+              <Bell size={18} />
+              <span className="absolute top-2 right-2.5 w-2 h-2 rounded-full bg-[var(--accent-warm)] border-2 border-[var(--bg-primary)]"></span>
+            </button>
+            
+            {showNotifs && (
+              <div className="absolute right-0 mt-3 w-80 bg-white border border-[var(--border)] rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] z-50 overflow-hidden animate-[fadeIn_0.2s_ease_forwards] origin-top-right">
+                <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
+                  <h3 className="font-bold text-black">Notifications</h3>
+                  <button onClick={() => setShowNotifs(false)} className="text-gray-400 hover:text-black"><X size={14}/></button>
+                </div>
+                <div className="max-h-80 overflow-y-auto">
+                   <div className="px-5 py-4 border-b border-[var(--border)] hover:bg-[#fcfbfc] cursor-pointer transition-colors text-sm">
+                      <div className="font-bold mb-0.5 text-black">Payment Received 💰</div>
+                      <div className="text-[var(--text-secondary)] leading-relaxed">Arham completed a payment of ₹499.99 for Annual Elite.</div>
+                      <div className="text-[10px] text-gray-400 font-mono mt-2 flex items-center gap-2">10 MINS AGO <span className="w-1 h-1 rounded-full bg-[var(--accent-warm)]"></span></div>
+                   </div>
+                   <div className="px-5 py-4 border-b border-[var(--border)] hover:bg-[#fcfbfc] cursor-pointer transition-colors text-sm">
+                      <div className="font-bold mb-0.5 text-black">Subscription Expiring</div>
+                      <div className="text-[var(--text-secondary)] leading-relaxed">Priya Sharma's Basic plan expires in 2 days. Reach out for renewal.</div>
+                      <div className="text-[10px] text-gray-400 font-mono mt-2">2 HOURS AGO</div>
+                   </div>
+                   <div className="px-5 py-4 hover:bg-[#fcfbfc] cursor-pointer transition-colors text-sm">
+                      <div className="font-bold mb-0.5 text-black">New Trainer Registered</div>
+                      <div className="text-[var(--text-secondary)] leading-relaxed">Ayush has successfully joined the gym system as a trainer.</div>
+                      <div className="text-[10px] text-gray-400 font-mono mt-2">YESTERDAY</div>
+                   </div>
+                </div>
+                <div className="bg-gray-50 border-t border-[var(--border)] p-3 text-center text-xs font-bold text-gray-500 hover:text-black cursor-pointer transition-colors">
+                  Mark all as read
+                </div>
+              </div>
+            )}
+          </div>
           <div className="w-9 h-9 rounded-full bg-[var(--text-primary)] text-white flex items-center justify-center font-bold text-sm cursor-pointer shadow-sm hover:shadow-md transition-shadow">
             A
           </div>
@@ -168,12 +212,13 @@ export function Table({ headers, children, loading, empty, pagination = true }) 
   )
 }
 
-export function Tr({ children, index = 0 }) {
+export function Tr({ children, index = 0, onClick }) {
   // Add staggered animation delay based on index
   return (
     <tr 
-      className="table-row opacity-0 animate-[fadeIn_0.4s_ease_forwards]"
+      className="border-b border-[var(--border)] opacity-0 animate-[fadeIn_0.4s_ease_forwards] hover:bg-[var(--bg-secondary)] hover:-translate-y-[1px] hover:shadow-[0_4px_15px_rgba(0,0,0,0.04)] transition-all duration-200 cursor-pointer relative z-10 hover:z-20 group"
       style={{ animationDelay: `${index * 50}ms` }}
+      onClick={onClick}
     >
       {children}
     </tr>

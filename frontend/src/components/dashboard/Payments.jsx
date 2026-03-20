@@ -6,6 +6,7 @@ import api from '../../lib/api'
 
 export default function Payments() {
   const [payments, setPayments] = useState([])
+  const [search, setSearch]     = useState('')
   const [loading, setLoading]   = useState(true)
   const [modal, setModal]       = useState(false)
   const { toast } = useToast()
@@ -18,6 +19,8 @@ export default function Payments() {
     api.get('/payments/').then(r => setPayments(r.data)).finally(() => setLoading(false))
   }
   useEffect(load, [])
+
+  const filtered = payments.filter(p => !search || String(p.user_id).includes(search) || (p.transaction_id || '').toLowerCase().includes(search.toLowerCase()))
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
@@ -56,11 +59,13 @@ export default function Payments() {
       <PageHeader 
         title="Revenue & Billing" 
         breadcrumbs={['Activity', 'Payments']}
-        action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20" onClick={() => setModal(true)}><Plus size={18}/> Record Payment</button>} 
+        searchValue={search}
+        onSearch={setSearch}
+        action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20 whitespace-nowrap" onClick={() => setModal(true)}><Plus size={18}/> Record Payment</button>} 
       />
       <div className="p-8 max-w-7xl mx-auto animate-fade-in">
         <Table headers={['Member','Amount','Method & REF','Date','Status','Actions']} loading={loading}>
-          {payments.map((p, index) => (
+          {filtered.map((p, index) => (
             <Tr key={p.id} index={index}>
               <Td>
                 <div className="font-bold text-[13px] text-black">Member #{p.user_id}</div>

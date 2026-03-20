@@ -6,6 +6,7 @@ import api from '../../lib/api'
 
 export default function Subscriptions() {
   const [subs, setSubs]       = useState([])
+  const [search, setSearch]   = useState('')
   const [loading, setLoading] = useState(true)
   const [modal, setModal]     = useState(false)
   const { toast } = useToast()
@@ -18,6 +19,8 @@ export default function Subscriptions() {
     api.get('/subscriptions/').then(r => setSubs(r.data)).finally(() => setLoading(false))
   }
   useEffect(load, [])
+
+  const filtered = subs.filter(s => !search || String(s.member_id).includes(search) || String(s.plan_id).includes(search))
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
@@ -55,11 +58,13 @@ export default function Subscriptions() {
       <PageHeader 
         title="Subscriptions" 
         breadcrumbs={['Operations', 'Subscriptions']}
-        action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20" onClick={() => setModal(true)}><Plus size={18}/> Assign Plan</button>} 
+        searchValue={search}
+        onSearch={setSearch}
+        action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20 whitespace-nowrap" onClick={() => setModal(true)}><Plus size={18}/> Assign Plan</button>} 
       />
       <div className="p-8 max-w-7xl mx-auto animate-fade-in">
         <Table headers={['Member','Plan ID','Period','Days Remaining','Status','Actions']} loading={loading}>
-          {subs.map((s, index) => (
+          {filtered.map((s, index) => (
             <Tr key={s.id} index={index}>
               <Td>
                 <div className="font-bold text-[13px] text-black">Member #{s.member_id}</div>

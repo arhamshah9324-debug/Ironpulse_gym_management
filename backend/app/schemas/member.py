@@ -2,6 +2,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date, datetime
+from app.schemas.user import UserResponse
 
 
 class MemberBase(BaseModel):
@@ -26,4 +27,5 @@ class MemberResponse(MemberBase):
     id: int
     user_id: int
     created_at: datetime
+    user: UserResponse
     model_config = {"from_attributes": True}

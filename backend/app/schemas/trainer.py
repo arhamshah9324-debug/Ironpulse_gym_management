@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 from decimal import Decimal
+from app.schemas.user import UserResponse
 
 
 class TrainerBase(BaseModel):
@@ -26,4 +27,5 @@ class TrainerResponse(TrainerBase):
     id: int
     user_id: int
     created_at: datetime
+    user: UserResponse
     model_config = {"from_attributes": True}

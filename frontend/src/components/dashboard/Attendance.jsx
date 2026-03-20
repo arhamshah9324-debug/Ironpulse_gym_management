@@ -6,6 +6,7 @@ import api from '../../lib/api'
 
 export default function Attendance() {
   const [records, setRecords] = useState([])
+  const [search, setSearch]   = useState('')
   const [loading, setLoading] = useState(true)
   const [filterDate, setFilterDate] = useState('')
   const [modal, setModal]     = useState(false)
@@ -19,6 +20,8 @@ export default function Attendance() {
     api.get(`/attendance/${q}`).then(r => setRecords(r.data)).finally(() => setLoading(false))
   }
   useEffect(load, [filterDate])
+
+  const filtered = records.filter(r => !search || String(r.user_id).includes(search))
 
   const checkIn = async e => {
     e.preventDefault()
@@ -45,9 +48,11 @@ export default function Attendance() {
       <PageHeader 
         title="Attendance & Access" 
         breadcrumbs={['Activity', 'Attendance']}
+        searchValue={search}
+        onSearch={setSearch}
         action={
-          <button className="btn-primary bg-[var(--green)] text-white hover:bg-green-700 shadow-lg shadow-green-500/20 !border-transparent" onClick={() => setModal(true)}>
-            <LogIn size={18}/> Check In Member
+          <button className="btn-primary bg-[var(--green)] text-white hover:bg-green-700 shadow-lg shadow-green-500/20 !border-transparent whitespace-nowrap" onClick={() => setModal(true)}>
+            <LogIn size={18}/> Check In
           </button>
         } 
       />
@@ -71,8 +76,8 @@ export default function Attendance() {
           </div>
         </div>
 
-        <Table headers={['Member','Date','Arrival time','Departure time','Session Duration','Status']} loading={loading} empty="No attendance records for this date.">
-          {records.map((a, index) => {
+        <Table headers={['Member','Date','Arrival time','Departure time','Session Duration','Status']} loading={loading} empty="No attendance records found.">
+          {filtered.map((a, index) => {
             const minutes = a.check_in && a.check_out ? Math.round((new Date(a.check_out) - new Date(a.check_in)) / 60000) : 0
             const duration = a.check_in && a.check_out
               ? `${Math.floor(minutes/60)}h ${minutes%60}m`

@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react'
 import { Plus, Trash2, Search, MoreVertical } from 'lucide-react'
 import { PageHeader, Table, Tr, Td, Modal, FormField, Badge } from '../ui/index.jsx'
 import { useToast } from '../../hooks/useToast'
+import { useNavigate } from 'react-router-dom'
 import api from '../../lib/api'
 
 export default function Trainers() {
+  const navigate = useNavigate()
   const [trainers, setTrainers] = useState([])
   const [loading, setLoading]   = useState(true)
   const [modal, setModal]       = useState(false)
   const [search, setSearch]     = useState('')
   const { toast } = useToast()
   const [form, setForm]         = useState({
-    user_id:'', phone:'', specialization:'', experience_years:'', hourly_rate:'', certifications:'', bio:''
+    name:'', email:'', phone:'', specialization:'', experience_years:'', hourly_rate:'', certifications:'', bio:''
   })
 
   const load = () => {
@@ -29,16 +31,24 @@ export default function Trainers() {
   const submit = async e => {
     e.preventDefault()
     try {
+      // 1. Create User
+      const userRes = await api.post('/auth/signup', {
+        name: form.name, email: form.email, password: 'password123', role: 'trainer'
+      })
+      const userId = userRes.data.user.id
+
+      // 2. Create Trainer Profile
+      const { name, email, ...trainerFields } = form
       const body = {
-        ...Object.fromEntries(Object.entries(form).map(([k, v]) => [k, v === '' ? null : v])),
-        user_id: Number(form.user_id),
+        ...Object.fromEntries(Object.entries(trainerFields).map(([k, v]) => [k, v === '' ? null : v])),
+        user_id: userId,
         experience_years: Number(form.experience_years) || 0,
         hourly_rate: form.hourly_rate ? Number(form.hourly_rate) : undefined,
       }
       await api.post('/trainers/', body)
       toast.success('Trainer profile created')
       setModal(false)
-      setForm({ user_id:'', phone:'', specialization:'', experience_years:'', hourly_rate:'', certifications:'', bio:'' })
+      setForm({ name:'', email:'', phone:'', specialization:'', experience_years:'', hourly_rate:'', certifications:'', bio:'' })
       load()
     } catch(e) { toast.error(e.response?.data?.detail || 'Failed to create trainer') }
   }
@@ -55,6 +65,8 @@ export default function Trainers() {
       <PageHeader 
         title="Trainers" 
         breadcrumbs={['Operations', 'Trainers']}
+        searchValue={search}
+        onSearch={setSearch}
         action={
           <button className="btn-primary shadow-lg shadow-[var(--accent)]/20" onClick={() => setModal(true)}>
             <Plus size={18}/> New Trainer
@@ -63,22 +75,9 @@ export default function Trainers() {
       />
       
       <div className="p-8 max-w-7xl mx-auto space-y-6 animate-fade-in">
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-3 rounded-xl border border-[var(--border)] shadow-sm">
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-            <input 
-              type="text" 
-              placeholder="Search trainers..." 
-              className="w-full pl-10 pr-4 py-2.5 bg-[#f5f5f3] border-transparent rounded-lg text-sm outline-none transition-all focus:bg-white focus:border-black focus:shadow-[0_0_0_2px_rgba(13,13,13,0.1)] border"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-
         <Table headers={['Trainer','Specialization','Experience','Rate/Hr','Certifications','Actions']} loading={loading}>
           {filtered.map((t, index) => (
-            <Tr key={t.id} index={index}>
+            <Tr key={t.id} index={index} onClick={() => navigate(`/dashboard/trainers/${t.id}`)}>
               <Td>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 border border-purple-300 flex items-center justify-center font-bold text-purple-700 text-sm">
@@ -118,8 +117,9 @@ export default function Trainers() {
       <Modal open={modal} onClose={() => setModal(false)} title="Add Trainer Profile">
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <FormField label="User ID *"><input className="input" type="number" value={form.user_id} onChange={set('user_id')} required /></FormField>
-            <FormField label="Phone"><input className="input font-mono" value={form.phone} onChange={set('phone')} /></FormField>
+            <FormField label="Full Name *"><input className="input" type="text" value={form.name} onChange={set('name')} placeholder="e.g. John Coach" required /></FormField>
+            <FormField label="Email *"><input className="input" type="email" value={form.email} onChange={set('email')} placeholder="john@ironpulse.com" required /></FormField>
+            <FormField label="Phone"><input className="input font-mono" value={form.phone} onChange={set('phone')} placeholder="+1-..." /></FormField>
           </div>
           <FormField label="Specialization"><input className="input" placeholder="e.g. Strength & Conditioning" value={form.specialization} onChange={set('specialization')} /></FormField>
           <div className="grid grid-cols-2 gap-4">

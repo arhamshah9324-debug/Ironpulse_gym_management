@@ -6,6 +6,7 @@ import api from '../../lib/api'
 
 export default function Plans() {
   const [plans, setPlans]     = useState([])
+  const [search, setSearch]   = useState('')
   const [loading, setLoading] = useState(true)
   const [modal, setModal]     = useState(false)
   const [form, setForm]       = useState({
@@ -18,6 +19,8 @@ export default function Plans() {
     api.get('/plans/').then(r => setPlans(r.data)).finally(() => setLoading(false))
   }
   useEffect(load, [])
+
+  const filtered = plans.filter(p => !search || p.name.toLowerCase().includes(search.toLowerCase()))
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
@@ -49,11 +52,13 @@ export default function Plans() {
       <PageHeader 
         title="Plans" 
         breadcrumbs={['Operations', 'Plans']}
+        searchValue={search}
+        onSearch={setSearch}
         action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20" onClick={() => setModal(true)}><Plus size={18}/> Add Plan</button>} 
       />
-      <div className="p-8 max-w-7xl mx-auto space-y-6 animate-fade-in">
+      <div className="p-8 max-w-7xl mx-auto animate-fade-in">
         <Table headers={['Plan Name','Duration','Price','Features','Status','Actions']} loading={loading}>
-          {plans.map((p, index) => (
+          {filtered.map((p, index) => (
             <Tr key={p.id} index={index}>
               <Td>
                 <div className="font-display text-xl text-black tracking-wide">{p.name}</div>

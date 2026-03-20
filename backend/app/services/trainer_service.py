@@ -1,6 +1,7 @@
 # backend/app/services/trainer_service.py
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from fastapi import HTTPException, status
 
 from app.models.trainer import Trainer
@@ -8,12 +9,12 @@ from app.schemas.trainer import TrainerCreate, TrainerUpdate
 
 
 async def get_all_trainers(db: AsyncSession, skip: int = 0, limit: int = 100):
-    result = await db.execute(select(Trainer).offset(skip).limit(limit))
+    result = await db.execute(select(Trainer).options(selectinload(Trainer.user)).offset(skip).limit(limit))
     return result.scalars().all()
 
 
 async def get_trainer_by_id(db: AsyncSession, trainer_id: int) -> Trainer:
-    result = await db.execute(select(Trainer).where(Trainer.id == trainer_id))
+    result = await db.execute(select(Trainer).options(selectinload(Trainer.user)).where(Trainer.id == trainer_id))
     trainer = result.scalar_one_or_none()
     if not trainer:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trainer not found")
@@ -27,8 +28,7 @@ async def create_trainer(db: AsyncSession, data: TrainerCreate) -> Trainer:
     trainer = Trainer(**data.model_dump())
     db.add(trainer)
     await db.flush()
-    await db.refresh(trainer)
-    return trainer
+    return await get_trainer_by_id(db, trainer.id)
 
 
 async def update_trainer(db: AsyncSession, trainer_id: int, data: TrainerUpdate) -> Trainer:
@@ -36,8 +36,7 @@ async def update_trainer(db: AsyncSession, trainer_id: int, data: TrainerUpdate)
     for field, value in data.model_dump(exclude_unset=True).items():
         setattr(trainer, field, value)
     await db.flush()
-    await db.refresh(trainer)
-    return trainer
+    return await get_trainer_by_id(db, trainer.id)
 
 
 async def delete_trainer(db: AsyncSession, trainer_id: int) -> dict:
