@@ -27,14 +27,14 @@ export default function Overview() {
   const user = getUser()
 
   useEffect(() => {
-    
+
     const fetchStats = async () => {
       try {
         const res = await api.get('/dashboard/stats')
         setStats(res.data)
       } catch (err) {
         console.error(err)
-        
+
         setStats({
           total_members: 248, total_trainers: 12, active_subscriptions: 184,
           today_attendance: 45, total_revenue: 125000, pending_payments: 3,
@@ -83,7 +83,7 @@ export default function Overview() {
 
       <div className="p-8 max-w-7xl mx-auto space-y-8">
 
-        {}
+        { }
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h1 className="font-display text-4xl text-[var(--text-primary)] leading-none mb-1">
@@ -103,7 +103,7 @@ export default function Overview() {
           </div>
         </div>
 
-        {}
+        { }
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {Array(6).fill().map((_, i) => (
@@ -144,7 +144,7 @@ export default function Overview() {
         ) : null}
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {}
+          { }
           <div className="lg:col-span-2 card p-6">
             <div className="flex justify-between items-center mb-8">
               <div>
@@ -177,7 +177,7 @@ export default function Overview() {
           </div>
 
           <div className="space-y-6 flex flex-col">
-            {}
+            { }
             <div className="card p-6 flex-1 flex flex-col">
               <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-secondary)] mb-4">Subscription Status</h3>
               <div className="flex-1 relative min-h-[160px]">
@@ -198,7 +198,7 @@ export default function Overview() {
                     <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid var(--border)', fontFamily: 'DM Sans', fontSize: 12, fontWeight: 'bold' }} />
                   </PieChart>
                 </ResponsiveContainer>
-                {}
+                { }
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                   <div className="font-mono text-2xl font-bold">{stats?.total_members || 248}</div>
                   <div className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Total</div>
@@ -214,7 +214,7 @@ export default function Overview() {
               </div>
             </div>
 
-            {}
+            { }
             <div className="card p-6 flex-1 drop-shadow-sm">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-secondary)]">Recent Activity</h3>
