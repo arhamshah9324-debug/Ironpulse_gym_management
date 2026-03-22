@@ -57,7 +57,7 @@ function ToastItem({ toast, removeToast }) {
         <X className="w-4 h-4" />
       </button>
       
-      {/* Progress Bar */}
+      {}
       <div className="absolute bottom-0 left-0 h-1 w-full bg-gray-100">
         <div 
           className={clsx("h-full", progressColors[toast.type])}
@@ -77,7 +77,7 @@ function ToastItem({ toast, removeToast }) {
 }
 
 export default function ToastContainer({ toasts, removeToast }) {
-  // Display max 3 toasts at a time
+  
   const visibleToasts = toasts.slice(-3);
 
   return (

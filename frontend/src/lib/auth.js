@@ -1,5 +1,5 @@
-// src/lib/auth.js
-// Helpers for reading/writing auth state in localStorage
+
+
 
 export const getToken = () => localStorage.getItem('token')
 export const getUser  = () => JSON.parse(localStorage.getItem('user') || '{}')

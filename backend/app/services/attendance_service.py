@@ -1,4 +1,4 @@
-# backend/app/services/attendance_service.py
+                                            
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 from fastapi import HTTPException, status
@@ -9,7 +9,7 @@ from app.schemas.attendance import AttendanceCheckIn
 
 
 async def check_in(db: AsyncSession, data: AttendanceCheckIn) -> Attendance:
-    """Record a check-in for today. Prevents duplicate check-ins."""
+                                                                    
     today = date.today()
     result = await db.execute(
         select(Attendance).where(
@@ -34,7 +34,7 @@ async def check_in(db: AsyncSession, data: AttendanceCheckIn) -> Attendance:
 
 
 async def check_out(db: AsyncSession, attendance_id: int) -> Attendance:
-    """Record check-out time on an existing attendance record."""
+                                                                 
     result = await db.execute(select(Attendance).where(Attendance.id == attendance_id))
     record = result.scalar_one_or_none()
     if not record:

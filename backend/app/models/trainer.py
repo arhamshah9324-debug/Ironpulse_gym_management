@@ -1,5 +1,5 @@
-# backend/app/models/trainer.py
-# Trainer profile — extended info for gym trainers linked to a User
+                               
+                                                                   
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Text, Numeric, DateTime
 from sqlalchemy.orm import relationship
@@ -17,9 +17,10 @@ class Trainer(Base):
     bio = Column(Text, nullable=True)
     experience_years = Column(Integer, default=0)
     hourly_rate = Column(Numeric(10, 2), nullable=True)
-    certifications = Column(Text, nullable=True)  # Comma-separated list
+    certifications = Column(Text, nullable=True)                        
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    # Relationships
+                   
     user = relationship("User", back_populates="trainer_profile")
+    members = relationship("Member", back_populates="trainer")

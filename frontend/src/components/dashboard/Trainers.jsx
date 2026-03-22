@@ -37,7 +37,7 @@ export default function Trainers() {
       })
       const userId = userRes.data.user.id
 
-      // 2. Create Trainer Profile
+      
       const { name, email, ...trainerFields } = form
       const body = {
         ...Object.fromEntries(Object.entries(trainerFields).map(([k, v]) => [k, v === '' ? null : v])),
@@ -74,7 +74,7 @@ export default function Trainers() {
         } 
       />
       
-      <div className="p-8 max-w-7xl mx-auto space-y-6 animate-fade-in">
+      <div className="p-8 max-w-7xl mx-auto space-y-6">
         <Table headers={['Trainer','Specialization','Experience','Rate/Hr','Certifications','Actions']} loading={loading}>
           {filtered.map((t, index) => (
             <Tr key={t.id} index={index} onClick={() => navigate(`/dashboard/trainers/${t.id}`)}>

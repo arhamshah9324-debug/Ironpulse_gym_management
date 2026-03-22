@@ -1,4 +1,4 @@
-# backend/app/schemas/__init__.py
+                                 
 from app.schemas.user import UserCreate, UserUpdate, UserResponse, UserLogin, TokenResponse
 from app.schemas.member import MemberCreate, MemberUpdate, MemberResponse
 from app.schemas.trainer import TrainerCreate, TrainerUpdate, TrainerResponse

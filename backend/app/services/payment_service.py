@@ -1,4 +1,4 @@
-# backend/app/services/payment_service.py
+                                         
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 from fastapi import HTTPException, status
@@ -42,7 +42,7 @@ async def update_payment(db: AsyncSession, payment_id: int, data: PaymentUpdate)
     payment = await get_payment_by_id(db, payment_id)
     for field, value in data.model_dump(exclude_unset=True).items():
         setattr(payment, field, value)
-    # Auto-set paid_at when status becomes paid
+                                               
     if data.status == PaymentStatus.paid and not payment.paid_at:
         payment.paid_at = datetime.now(timezone.utc)
     await db.flush()

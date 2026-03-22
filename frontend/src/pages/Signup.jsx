@@ -22,7 +22,7 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen flex bg-white font-sans">
-      {/* LEFT PANEL - BRAND EXPERIENCE */}
+      {}
       <div className="hidden lg:flex flex-1 relative bg-[var(--text-primary)] text-white overflow-hidden p-12 flex-col justify-between">
         <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[var(--accent)]/10 rounded-full blur-[100px]"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#ff6b35]/15 rounded-full blur-[120px]"></div>
@@ -67,7 +67,7 @@ export default function Signup() {
         </div>
       </div>
 
-      {/* RIGHT PANEL - CLEAN FORM */}
+      {}
       <div className="flex-[1] flex items-center justify-center p-6 sm:p-12 relative bg-[var(--bg-primary)] overflow-y-auto">
         <div className="lg:hidden absolute top-6 left-6 flex items-center gap-2 font-display text-xl tracking-widest text-black">
           <Zap size={18} fill="currentColor" /> IronPulse

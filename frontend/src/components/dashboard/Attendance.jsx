@@ -57,7 +57,7 @@ export default function Attendance() {
         } 
       />
       
-      <div className="p-8 max-w-7xl mx-auto space-y-6 animate-fade-in">
+      <div className="p-8 max-w-7xl mx-auto space-y-6">
         <div className="flex items-center gap-3 bg-white p-3 rounded-xl border border-[var(--border)] shadow-sm">
           <div className="w-10 h-10 rounded-lg bg-[#f5f5f3] flex items-center justify-center text-gray-400 border border-[var(--border)]">
             <Filter size={18} />
@@ -76,7 +76,7 @@ export default function Attendance() {
           </div>
         </div>
 
-        <Table headers={['Member','Date','Arrival time','Departure time','Session Duration','Status']} loading={loading} empty="No attendance records found.">
+        <Table headers={['Member','Date','Arrival time','Departure time','Session Duration','Status']} loading={loading} empty="No attendance records found." pagination={false}>	
           {filtered.map((a, index) => {
             const minutes = a.check_in && a.check_out ? Math.round((new Date(a.check_out) - new Date(a.check_in)) / 60000) : 0
             const duration = a.check_in && a.check_out
@@ -116,7 +116,7 @@ export default function Attendance() {
                       <LogOut size={14} className="mr-1"/> End Session
                     </button>
                   ) : (
-                    <Badge value="paid" /> // Using green paid badge color as 'Complete'
+                    <Badge value="paid" /> 
                   )}
                 </Td>
               </Tr>

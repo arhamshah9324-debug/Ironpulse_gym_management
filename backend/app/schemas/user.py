@@ -1,5 +1,5 @@
-# backend/app/schemas/user.py
-# Pydantic schemas for User — request/response validation
+                             
+                                                         
 
 from pydantic import BaseModel, EmailStr, field_validator
 from typing import Optional

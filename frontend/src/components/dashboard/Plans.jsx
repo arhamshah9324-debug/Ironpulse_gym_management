@@ -56,7 +56,7 @@ export default function Plans() {
         onSearch={setSearch}
         action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20" onClick={() => setModal(true)}><Plus size={18}/> Add Plan</button>} 
       />
-      <div className="p-8 max-w-7xl mx-auto animate-fade-in">
+      <div className="p-8 max-w-7xl mx-auto">
         <Table headers={['Plan Name','Duration','Price','Features','Status','Actions']} loading={loading}>
           {filtered.map((p, index) => (
             <Tr key={p.id} index={index}>

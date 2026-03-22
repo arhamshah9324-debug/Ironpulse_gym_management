@@ -29,13 +29,13 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] font-sans overflow-hidden">
       
-      {/* BACKGROUND EFFECTS */}
+      {}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--accent)]/10 rounded-full blur-[120px]"></div>
         <div className="absolute top-[20%] -right-[10%] w-[500px] h-[500px] bg-[#ff6b35]/5 rounded-full blur-[100px]"></div>
       </div>
 
-      {/* NAV */}
+      {}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrollY > 20 ? 'glass-header py-3' : 'bg-transparent py-5'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2 font-display text-2xl tracking-widest text-[#0d0d0d]">
@@ -63,7 +63,7 @@ export default function Landing() {
         </div>
       </nav>
 
-      {/* HERO */}
+      {}
       <section className="relative z-10 pt-40 pb-20 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[var(--border)] shadow-sm mb-8 animate-slide-up">
           <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
@@ -89,13 +89,13 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* DASHBOARD PREVIEW */}
+      {}
       <section className="relative z-10 px-6 max-w-6xl mx-auto -mt-4 mb-32 hidden md:block perspective-1000">
         <div 
           className="relative rounded-2xl border border-[var(--border)/50] bg-white shadow-[0_40px_100px_rgba(0,0,0,0.1)] overflow-hidden transition-transform duration-700 ease-out hover:rotate-0"
           style={{ transform: `rotateX(${Math.max(0, 15 - scrollY * 0.05)}deg) scale(${Math.min(1, 0.95 + scrollY * 0.0001)})`, transformStyle: 'preserve-3d' }}
         >
-          {/* Browser Chrome */}
+          {}
           <div className="bg-[#f5f5f3] px-4 py-3 flex items-center gap-2 border-b border-[var(--border)]">
             <div className="flex gap-1.5">
               <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
@@ -106,10 +106,10 @@ export default function Landing() {
               <span className="text-[10px] text-[var(--text-muted)] font-mono">app.ironpulse.com</span>
             </div>
           </div>
-          {/* Dashboard Image / Mock */}
+          {}
           <div className="p-8 bg-dashboard-grid pb-0 h-[500px] overflow-hidden">
             <div className="flex gap-6 h-full">
-              {/* Fake Sidebar */}
+              {}
               <div className="w-48 bg-white rounded-t-xl border border-b-0 border-[var(--border)] p-4 shadow-sm">
                 <div className="h-4 w-24 bg-gray-200 rounded mb-8"></div>
                 <div className="space-y-3">
@@ -119,7 +119,7 @@ export default function Landing() {
                   <div className="h-8 w-full bg-gray-100 rounded-md"></div>
                 </div>
               </div>
-              {/* Fake Content */}
+              {}
               <div className="flex-1 space-y-6 pt-2">
                 <div className="flex gap-4">
                   <div className="h-32 flex-1 bg-white rounded-xl border border-[var(--border)] shadow-sm p-4 border-t-2 border-t-[var(--accent)]"></div>
@@ -139,7 +139,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF */}
+      {}
       <section className="py-12 border-y border-[var(--border)] bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-2">
@@ -167,7 +167,7 @@ export default function Landing() {
         `}</style>
       </section>
 
-      {/* FEATURES GRID */}
+      {}
       <section id="features" className="py-24 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="font-display text-4xl md:text-6xl text-[var(--text-primary)] mb-4">Everything you need.<br/>Nothing you don't.</h2>
@@ -182,14 +182,14 @@ export default function Landing() {
               <h3 className="font-display text-2xl mb-3 text-[var(--text-primary)]">{f.title}</h3>
               <p className="text-[var(--text-secondary)] text-sm leading-relaxed">{f.desc}</p>
               
-              {/* Hover effect border */}
+              {}
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {}
       <section id="how-it-works" className="py-24 bg-white relative z-10">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
@@ -197,7 +197,7 @@ export default function Landing() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-12 relative">
-            {/* Dashed line connecting steps - hidden on mobile */}
+            {}
             <div className="hidden md:block absolute top-[100px] left-[15%] right-[15%] border-t-2 border-dashed border-[var(--border-strong)] z-0"></div>
             
             {[
@@ -217,7 +217,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* PLANS */}
+      {}
       <section id="pricing" className="py-32 px-6 md:px-12 max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="font-display text-5xl text-[var(--text-primary)] mb-4">Simple, transparent pricing</h2>
@@ -252,7 +252,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {}
       <footer className="bg-[#f5f5f3] border-t border-[var(--border)] pt-16 pb-8 px-6 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <div className="flex items-center gap-2 font-display text-3xl tracking-widest text-[#0d0d0d] mb-6">

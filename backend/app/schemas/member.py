@@ -1,4 +1,3 @@
-# backend/app/schemas/member.py
 from pydantic import BaseModel
 from typing import Optional
 from datetime import date, datetime
@@ -13,6 +12,7 @@ class MemberBase(BaseModel):
     emergency_phone: Optional[str] = None
     profile_notes: Optional[str] = None
     join_date: Optional[date] = None
+    trainer_id: Optional[int] = None
 
 
 class MemberCreate(MemberBase):

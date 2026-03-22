@@ -1,5 +1,5 @@
-# backend/app/services/auth_service.py
-# Business logic for authentication: signup, login, Google OAuth token exchange
+                                      
+                                                                               
 
 from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,8 +14,8 @@ from app.core.config import settings
 
 
 async def create_user(db: AsyncSession, user_data: UserCreate) -> User:
-    """Register a new user with hashed password."""
-    # Check for duplicate email
+                                                   
+                               
     result = await db.execute(select(User).where(User.email == user_data.email))
     if result.scalar_one_or_none():
         raise HTTPException(
@@ -35,7 +35,7 @@ async def create_user(db: AsyncSession, user_data: UserCreate) -> User:
 
 
 async def authenticate_user(db: AsyncSession, email: str, password: str) -> User:
-    """Verify email/password and return user."""
+                                                
     result = await db.execute(select(User).where(User.email == email))
     user = result.scalar_one_or_none()
     if not user or not user.hashed_password:
@@ -57,9 +57,9 @@ async def authenticate_user(db: AsyncSession, email: str, password: str) -> User
 
 
 async def get_google_user_info(code: str) -> dict:
-    """Exchange Google OAuth code for user profile data."""
+                                                           
     async with httpx.AsyncClient() as client:
-        # Exchange code for tokens
+                                  
         token_resp = await client.post(
             "https://oauth2.googleapis.com/token",
             data={
@@ -76,7 +76,7 @@ async def get_google_user_info(code: str) -> dict:
 
         access_token = token_data["access_token"]
 
-        # Fetch user profile
+                            
         user_resp = await client.get(
             "https://www.googleapis.com/oauth2/v2/userinfo",
             headers={"Authorization": f"Bearer {access_token}"},
@@ -85,29 +85,29 @@ async def get_google_user_info(code: str) -> dict:
 
 
 async def google_oauth_login(db: AsyncSession, code: str) -> User:
-    """Login or register user via Google OAuth."""
+                                                  
     profile = await get_google_user_info(code)
     google_id = profile.get("id")
     email = profile.get("email")
     name = profile.get("name", email)
     avatar_url = profile.get("picture")
 
-    # Check existing by google_id
+                                 
     result = await db.execute(select(User).where(User.google_id == google_id))
     user = result.scalar_one_or_none()
 
     if not user:
-        # Check if email exists (link accounts)
+                                               
         result = await db.execute(select(User).where(User.email == email))
         user = result.scalar_one_or_none()
 
     if user:
-        # Update OAuth info
+                           
         user.google_id = google_id
         user.avatar_url = avatar_url
         await db.flush()
     else:
-        # Create new user via Google
+                                    
         user = User(
             name=name,
             email=email,

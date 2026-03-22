@@ -1,5 +1,5 @@
-# backend/app/models/attendance.py
-# Attendance — tracks member check-ins and check-outs
+                                  
+                                                     
 
 from sqlalchemy import Column, Integer, ForeignKey, DateTime, Date, String
 from sqlalchemy.orm import relationship

@@ -1,4 +1,4 @@
-# backend/app/api/routes/subscriptions.py
+                                         
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
@@ -47,6 +47,6 @@ async def update_subscription(sub_id: int, data: SubscriptionUpdate, db: AsyncSe
 
 @router.post("/expire-check")
 async def run_expiry_check(db: AsyncSession = Depends(get_db), _: User = Depends(require_admin_or_trainer)):
-    """Manually trigger subscription expiry check."""
+                                                     
     count = await subscription_service.auto_expire_subscriptions(db)
     return {"expired": count}

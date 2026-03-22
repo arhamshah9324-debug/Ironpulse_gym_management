@@ -1,5 +1,5 @@
-# backend/app/api/routes/members.py
-from fastapi import APIRouter, Depends
+                                   
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 
@@ -10,6 +10,17 @@ from app.core.dependencies import require_admin_or_trainer, get_current_user
 from app.models.user import User
 
 router = APIRouter(prefix="/members", tags=["Members"])
+
+
+@router.get("/me", response_model=MemberResponse)
+async def get_my_member_profile(
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    member = await member_service.get_member_by_user_id(db, current_user.id)
+    if not member:
+        raise HTTPException(status_code=404, detail="Member profile not found for this user")
+    return member
 
 
 @router.get("/", response_model=List[MemberResponse])

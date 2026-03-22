@@ -1,5 +1,5 @@
-# backend/app/core/dependencies.py
-# Reusable FastAPI dependency functions for authentication and role checks
+                                  
+                                                                          
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -18,7 +18,7 @@ async def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: AsyncSession = Depends(get_db),
 ) -> User:
-    """Extract and validate the current user from JWT token."""
+                                                               
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -40,7 +40,7 @@ async def get_current_user(
 
 
 def require_role(*roles: str):
-    """Factory for role-based access control dependency."""
+                                                           
     async def role_checker(current_user: User = Depends(get_current_user)) -> User:
         if current_user.role not in roles:
             raise HTTPException(
@@ -51,6 +51,6 @@ def require_role(*roles: str):
     return role_checker
 
 
-# Convenience role dependencies
+                               
 require_admin = require_role("admin")
 require_admin_or_trainer = require_role("admin", "trainer")

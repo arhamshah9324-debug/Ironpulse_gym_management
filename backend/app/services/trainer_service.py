@@ -1,4 +1,4 @@
-# backend/app/services/trainer_service.py
+                                         
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
@@ -18,6 +18,14 @@ async def get_trainer_by_id(db: AsyncSession, trainer_id: int) -> Trainer:
     trainer = result.scalar_one_or_none()
     if not trainer:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trainer not found")
+    return trainer
+
+
+async def get_trainer_by_user_id(db: AsyncSession, user_id: int) -> Trainer:
+    result = await db.execute(select(Trainer).options(selectinload(Trainer.user)).where(Trainer.user_id == user_id))
+    trainer = result.scalar_one_or_none()
+    if not trainer:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trainer profile not found for this user")
     return trainer
 
 

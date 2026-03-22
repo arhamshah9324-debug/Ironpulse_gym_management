@@ -1,5 +1,5 @@
-# backend/app/models/payment.py
-# Payment — billing records for subscriptions
+                               
+                                             
 
 from sqlalchemy import Column, Integer, ForeignKey, Numeric, String, DateTime, Enum as SAEnum
 from sqlalchemy.orm import relationship

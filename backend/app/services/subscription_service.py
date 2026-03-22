@@ -1,4 +1,4 @@
-# backend/app/services/subscription_service.py
+                                              
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from fastapi import HTTPException, status
@@ -46,7 +46,7 @@ async def update_subscription(db: AsyncSession, sub_id: int, data: SubscriptionU
 
 
 async def auto_expire_subscriptions(db: AsyncSession):
-    """Mark past-end-date active subscriptions as expired."""
+                                                             
     today = date.today()
     result = await db.execute(
         select(Subscription).where(

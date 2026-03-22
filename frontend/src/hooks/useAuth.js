@@ -1,4 +1,4 @@
-// src/hooks/useAuth.js
+
 import { useState, useEffect } from 'react'
 import { getUser, getToken, clearAuth, saveAuth } from '../lib/auth'
 import api from '../lib/api'

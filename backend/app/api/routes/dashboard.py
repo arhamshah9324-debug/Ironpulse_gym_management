@@ -1,4 +1,4 @@
-# backend/app/api/routes/dashboard.py
+                                     
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,5 +15,5 @@ async def dashboard_stats(
     db: AsyncSession = Depends(get_db),
     _: User = Depends(require_admin_or_trainer),
 ):
-    """Return key metrics for the admin/trainer dashboard."""
+                                                             
     return await get_dashboard_stats(db)

@@ -63,7 +63,7 @@ export default function Payments() {
         onSearch={setSearch}
         action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20 whitespace-nowrap" onClick={() => setModal(true)}><Plus size={18}/> Record Payment</button>} 
       />
-      <div className="p-8 max-w-7xl mx-auto animate-fade-in">
+      <div className="p-8 max-w-7xl mx-auto">
         <Table headers={['Member','Amount','Method & REF','Date','Status','Actions']} loading={loading}>
           {filtered.map((p, index) => (
             <Tr key={p.id} index={index}>

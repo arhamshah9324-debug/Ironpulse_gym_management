@@ -57,6 +57,8 @@ async def seed():
                 certifications="NASM-CPT, ACE"
             )
             db.add(t_profile)
+            await db.flush()
+            trainer_profiles.append(t_profile)
 
         # ── Members (16) ───────────────────────────────────────────
         realistic_members = [
@@ -91,7 +93,8 @@ async def seed():
                 user_id=m_user.id, phone=f"+91 {random.randint(9000000000, 9999999999)}",
                 join_date=join_d, date_of_birth=date(1985 + random.randint(0, 15), random.randint(1,12), random.randint(1,28)),
                 address=addr, emergency_contact=name.split()[0] + "'s Relative", 
-                emergency_phone=f"+91 {random.randint(9000000000, 9999999999)}"
+                emergency_phone=f"+91 {random.randint(9000000000, 9999999999)}",
+                trainer_id=random.choice(trainer_profiles).id if random.random() < 0.8 and trainer_profiles else None
             )
             db.add(m_profile)
             member_profiles.append(m_profile)

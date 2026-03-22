@@ -1,4 +1,4 @@
-# backend/app/api/routes/trainers.py
+                                    
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
@@ -10,6 +10,15 @@ from app.core.dependencies import require_admin, get_current_user
 from app.models.user import User
 
 router = APIRouter(prefix="/trainers", tags=["Trainers"])
+
+
+@router.get("/me", response_model=TrainerResponse)
+async def get_my_trainer_profile(
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    trainer = await trainer_service.get_trainer_by_user_id(db, current_user.id)
+    return trainer
 
 
 @router.get("/", response_model=List[TrainerResponse])

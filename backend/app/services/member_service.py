@@ -1,5 +1,5 @@
-# backend/app/services/member_service.py
-# CRUD operations for Member profiles
+                                        
+                                     
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -8,6 +8,7 @@ from fastapi import HTTPException, status
 
 from app.models.member import Member
 from app.schemas.member import MemberCreate, MemberUpdate
+from app.services.attendance_service import get_attendance_by_user
 
 
 async def get_all_members(db: AsyncSession, skip: int = 0, limit: int = 100):
@@ -46,7 +47,3 @@ async def update_member(db: AsyncSession, member_id: int, data: MemberUpdate) ->
     return await get_member_by_id(db, member.id)
 
 
-async def delete_member(db: AsyncSession, member_id: int) -> dict:
-    member = await get_member_by_id(db, member_id)
-    await db.delete(member)
-    return {"detail": "Member deleted"}

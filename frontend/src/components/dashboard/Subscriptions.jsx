@@ -62,7 +62,7 @@ export default function Subscriptions() {
         onSearch={setSearch}
         action={<button className="btn-primary shadow-lg shadow-[var(--accent)]/20 whitespace-nowrap" onClick={() => setModal(true)}><Plus size={18}/> Assign Plan</button>} 
       />
-      <div className="p-8 max-w-7xl mx-auto animate-fade-in">
+      <div className="p-8 max-w-7xl mx-auto">
         <Table headers={['Member','Plan ID','Period','Days Remaining','Status','Actions']} loading={loading}>
           {filtered.map((s, index) => (
             <Tr key={s.id} index={index}>

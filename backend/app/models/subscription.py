@@ -1,5 +1,5 @@
-# backend/app/models/subscription.py
-# Subscription — links a member to a plan with start/end dates
+                                    
+                                                              
 
 from sqlalchemy import Column, Integer, ForeignKey, Date, Enum as SAEnum, DateTime
 from sqlalchemy.orm import relationship

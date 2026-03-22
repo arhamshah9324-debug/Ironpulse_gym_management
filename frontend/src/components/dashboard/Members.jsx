@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Plus, Trash2, Search, Filter, MoreVertical, X, User } from 'lucide-react'
+import { Plus, Trash2, Search, Filter, MoreVertical, X, User, CreditCard } from 'lucide-react'
 import { PageHeader, Table, Tr, Td, Modal, FormField, Badge } from '../ui/index.jsx'
 import { useToast } from '../../hooks/useToast'
 import { useNavigate } from 'react-router-dom'
 import api from '../../lib/api'
 
-// src/components/dashboard/Members.jsx
+
 export default function Members() {
   const navigate = useNavigate()
   const [members, setMembers] = useState([])
@@ -39,7 +39,7 @@ export default function Members() {
       })
       const userId = userRes.data.user.id
       
-      // 2. Create Member Profile
+      
       const { name, email, ...memberFields } = form
       const body = { 
         ...Object.fromEntries(Object.entries(memberFields).map(([k, v]) => [k, v === '' ? null : v])),
@@ -54,7 +54,7 @@ export default function Members() {
   }
 
   const del = async id => {
-    // Custom logic would go here in a real app (with a custom modal), but sticking to simple delete for now
+    
     if (!confirm('Are you entirely sure you want to delete this member?')) return
     await api.delete(`/members/${id}`)
     toast.success('Member deleted')
@@ -74,9 +74,9 @@ export default function Members() {
           } 
         />
         
-        <div className="p-8 max-w-7xl mx-auto space-y-6 animate-fade-in">
+        <div className="p-8 max-w-7xl mx-auto space-y-6">
           
-          {/* Stats Row */}
+          {}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="card p-5 border-l-4 border-l-black">
               <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)] mb-1">Total Members</div>
@@ -92,7 +92,7 @@ export default function Members() {
             </div>
           </div>
 
-          {/* Controls Bar */}
+          {}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-3 rounded-xl border border-[var(--border)] shadow-sm">
             <div className="relative w-full md:w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
@@ -127,11 +127,11 @@ export default function Members() {
                 <Td>
                   <div className="flex items-center gap-3 group">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#f5f5f3] to-[#e5e3de] border border-[var(--border)] flex items-center justify-center font-bold text-[var(--text-primary)] text-sm group-hover:scale-110 transition-transform">
-                      {m.user?.name ? m.user.name[0].toUpperCase() : 'M'}
+                      {m?.user?.name?.charAt(0).toUpperCase() || 'M'}
                     </div>
                     <div>
-                      <div className="font-bold text-[13px] text-black group-hover:text-[var(--accent-warm)] transition-colors">{m.user?.name || `Member #${m.user_id}`}</div>
-                      <div className="text-[11px] font-mono text-[var(--text-muted)] mt-0.5">{m.user?.email || `ID: ${m.user_id}`}</div>
+                      <div className="font-bold text-[13px] text-black group-hover:text-[var(--accent-warm)] transition-colors">{m?.user?.name || `Member #${m?.user_id || m?.id || 'Unknown'}`}</div>
+                      <div className="text-[11px] font-mono text-[var(--text-muted)] mt-0.5">{m?.user?.email || `ID: ${m?.user_id || m?.id || 'Unknown'}`}</div>
                     </div>
                   </div>
                 </Td>
@@ -160,7 +160,7 @@ export default function Members() {
         </div>
       </div>
 
-      {/* Slide-over Detail Panel */}
+      {}
       {slideOver && (
         <div className="fixed inset-y-0 right-0 w-[440px] bg-white border-l border-[var(--border)] shadow-[-20px_0_60px_rgba(0,0,0,0.08)] z-40 flex flex-col slide-over-enter">
           <div className="absolute top-4 right-4 z-10">
@@ -170,19 +170,19 @@ export default function Members() {
           </div>
           
           <div className="flex-1 overflow-y-auto">
-            {/* Header Profile */}
+            {}
             <div className="px-8 pt-12 pb-8 border-b border-[var(--border)] bg-dashboard-grid">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-black to-gray-800 text-[var(--accent)] flex items-center justify-center font-display text-4xl mb-4 border-4 border-white shadow-md">
-                {slideOver.user?.name ? slideOver.user.name[0].toUpperCase() : 'M'}
+                {slideOver?.user?.name?.charAt(0).toUpperCase() || 'M'}
               </div>
-              <h2 className="font-display text-3xl mb-1">{slideOver.user?.name || `Member #${slideOver.user_id}`}</h2>
+              <h2 className="font-display text-3xl mb-1">{slideOver?.user?.name || `Member #${slideOver?.user_id || slideOver?.id || 'Unknown'}`}</h2>
               <div className="flex gap-2">
                 <Badge value="active" dot />
                 <Badge value="member" />
               </div>
             </div>
 
-            {/* Tabs (Visual only for now, mock UI) */}
+            {}
             <div className="px-8 pt-4 border-b border-[var(--border)] flex gap-6 text-[11px] font-bold uppercase tracking-widest relative">
               <button className="pb-3 text-black border-b-2 border-black">Overview</button>
               <button className="pb-3 text-gray-400 hover:text-black transition-colors">Subscriptions</button>
@@ -190,14 +190,14 @@ export default function Members() {
               <button className="pb-3 text-gray-400 hover:text-black transition-colors">Payments</button>
             </div>
 
-            {/* Content Overview */}
+            {}
             <div className="p-8 space-y-8">
               <div>
                 <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)] mb-4">Contact Information</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#f9f8f6] p-4 rounded-xl border border-[var(--border)]">
                     <div className="text-xs text-gray-500 mb-1">Phone</div>
-                    <div className="font-mono text-sm font-semibold">{slideOver.phone || '—'}</div>
+                    <div className="font-mono text-sm font-semibold">{slideOver?.phone || '—'}</div>
                   </div>
                   <div className="bg-[#f9f8f6] p-4 rounded-xl border border-[var(--border)]">
                     <div className="text-xs text-gray-500 mb-1">Join Date</div>
@@ -226,7 +226,7 @@ export default function Members() {
         </div>
       )}
 
-      {/* Overlay when slideOver is open to allow clicking out */}
+      {}
       {slideOver && (
         <div 
           className="fixed inset-0 z-30 bg-black/10 backdrop-blur-[1px] cursor-pointer" 
@@ -234,7 +234,7 @@ export default function Members() {
         />
       )}
 
-      {/* ADD MEMBER MODAL */}
+      {}
       <Modal open={modal} onClose={() => setModal(false)} title="Add New Member">
         <form onSubmit={submit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">

@@ -1,5 +1,5 @@
-# backend/app/utils/error_handlers.py
-# Global exception handlers — return consistent JSON error responses
+                                     
+                                                                    
 
 from fastapi import Request
 from fastapi.responses import JSONResponse

@@ -1,5 +1,5 @@
-# backend/app/api/routes/auth.py
-# Authentication endpoints: signup, login (JWT), Google OAuth
+                                
+                                                             
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import RedirectResponse
@@ -19,7 +19,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 @router.post("/signup", response_model=TokenResponse, status_code=201)
 async def signup(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
-    """Register a new user and return a JWT token."""
+                                                     
     user = await create_user(db, user_data)
     token = create_access_token(subject=user.id, role=user.role.value)
     return TokenResponse(access_token=token, user=UserResponse.model_validate(user))
@@ -27,7 +27,7 @@ async def signup(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
 
 @router.post("/login", response_model=TokenResponse)
 async def login(credentials: UserLogin, db: AsyncSession = Depends(get_db)):
-    """Login with email/password and receive a JWT token."""
+                                                            
     user = await authenticate_user(db, credentials.email, credentials.password)
     token = create_access_token(subject=user.id, role=user.role.value)
     return TokenResponse(access_token=token, user=UserResponse.model_validate(user))
@@ -35,13 +35,13 @@ async def login(credentials: UserLogin, db: AsyncSession = Depends(get_db)):
 
 @router.get("/me", response_model=UserResponse)
 async def me(current_user: User = Depends(get_current_user)):
-    """Return profile of the currently authenticated user."""
+                                                             
     return current_user
 
 
 @router.get("/google")
 async def google_login():
-    """Redirect to Google OAuth consent screen."""
+                                                  
     if not settings.GOOGLE_CLIENT_ID:
         raise HTTPException(status_code=501, detail="Google OAuth not configured")
     params = urllib.parse.urlencode({
@@ -56,9 +56,9 @@ async def google_login():
 
 @router.get("/google/callback")
 async def google_callback(code: str, db: AsyncSession = Depends(get_db)):
-    """Handle Google OAuth callback — exchange code for user session."""
+                                                                        
     user = await google_oauth_login(db, code)
     token = create_access_token(subject=user.id, role=user.role.value)
-    # Redirect to frontend with token in query param (frontend stores it)
+                                                                         
     redirect_url = f"{settings.FRONTEND_URL}/dashboard.html?token={token}"
     return RedirectResponse(redirect_url)

@@ -1,5 +1,5 @@
-# backend/app/models/__init__.py
-# Import all models here so Alembic autogenerate can discover them
+                                
+                                                                  
 
 from app.models.user import User, UserRole
 from app.models.member import Member
