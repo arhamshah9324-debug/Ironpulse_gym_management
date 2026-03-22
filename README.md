@@ -46,10 +46,37 @@ IronPulse is a modern, full-stack Gym Management System designed to handle gym o
 
 ## 📂 Project Structure
 
-- `/frontend` - React single-page application and UI components.
-- `/backend` - FastAPI server, database models, schemas, and API routes.
-- `docker-compose.yml` - Multi-container Docker orchestrated setup.
-- `DEPLOYMENT.md` - Deployment notes and production guides.
+```text
+gym-management/
+├── backend/
+│   ├── alembic/              # Database migration scripts
+│   ├── app/
+│   │   ├── api/routes/       # FastAPI route handlers
+│   │   ├── core/             # Security and config settings
+│   │   ├── db/               # PostgreSQL async session logic
+│   │   ├── models/           # SQLAlchemy database models
+│   │   ├── schemas/          # Pydantic validation schemas
+│   │   ├── services/         # Business logic layer
+│   │   └── main.py           # FastAPI application entry point
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── seed.py               # Script to populate demo data
+├── frontend/
+│   ├── public/               # Static public assets & _redirects
+│   ├── src/
+│   │   ├── components/       # Reusable React UI components
+│   │   ├── hooks/            # Custom React hooks (useAuth, etc)
+│   │   ├── lib/              # Utilities and Axios API instance
+│   │   ├── pages/            # Main React Route pages (Login, Dashboard)
+│   │   ├── App.jsx           # Main React Router setup
+│   │   └── main.jsx          # React DOM entry point
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── vite.config.js
+├── .env.example              # Example environment variables
+├── docker-compose.yml        # Docker multi-container setup
+└── README.md
+```
 
 ## 📝 License
 This project is licensed under the MIT License.
