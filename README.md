@@ -41,7 +41,7 @@ IronPulse is a modern, full-stack Gym Management System designed to handle gym o
    *This command will pull the required images, build the multi-stage frontend/backend architecture, initialize the PostgreSQL database, and start the application in detached mode.*
 
 4. **Access the Application:**
-   - **Frontend Dashboard:** [https://ironpulse-frontend.onrender.com/dashboard](https://ironpulse-frontend.onrender.com/dashboard)
+   - **Frontend Dashboard:** [http://localhost:8000/dashboard](http://localhost:8000/dashboard)
    - **Backend API Swagger Docs:** [https://ironpulse-backend-43oo.onrender.com/docs](https://ironpulse-backend-43oo.onrender.com/docs)
 
 ## 📂 Project Structure
